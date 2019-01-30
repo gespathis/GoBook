@@ -44,7 +44,15 @@ func (u Universe) Set(row int, column int, value bool) {
 func (u Universe) Seed() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	for i := 0; (width*height/100)*25 > i; i++ {
-		u.Set(rand.Intn(height), rand.Intn(width), true)
+
+		row := rand.Intn(height)
+		column := rand.Intn(width)
+
+		if !u[row][column] {
+			u.Set(row, column, true)
+		} else {
+			i--
+		}
 	}
 }
 
