@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math/rand"
+	"time"
 )
 
 const (
@@ -33,6 +35,19 @@ func (u Universe) String() string {
 	return string(serialize)
 }
 
+//Set value to slice
+func (u Universe) Set(row int, column int, value bool) {
+	u[row][column] = value
+}
+
+//Seed type 2 dimentional
+func (u Universe) Seed() {
+	rand.Seed(time.Now().UTC().UnixNano())
+	for i := 0; (width*height/100)*25 > i; i++ {
+		u.Set(rand.Intn(height), rand.Intn(width), true)
+	}
+}
+
 //Show display universe
 func (u Universe) Show() {
 	fmt.Print(u.String())
@@ -51,5 +66,6 @@ func NewUniverse() Universe {
 
 func main() {
 	v := NewUniverse()
+	v.Seed()
 	v.Show()
 }
