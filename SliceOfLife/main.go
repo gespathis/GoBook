@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
+	"os/exec"
 	"time"
 )
 
@@ -58,7 +60,17 @@ func (u Universe) Seed() {
 
 //Show display universe
 func (u Universe) Show() {
+	cmd := exec.Command("cmd", "/c", "cls") //Windows example, its tested
+	cmd.Stdout = os.Stdout
+	cmd.Run()
 	fmt.Print(u.String())
+}
+
+//Alive check if a planet is alive
+func (u Universe) Alive(x, y int) bool {
+	y = (y + height) % height
+	x = (x + width) % width
+	return u[y][x]
 }
 
 // NewUniverse create universe
@@ -72,8 +84,58 @@ func NewUniverse() Universe {
 	return u
 }
 
+// Neighbors coount live neiboors
+func (u Universe) Neighbors(x, y int) int {
+
+	n := 0
+
+	for i := -1; i <= 1; i++ {
+		for k := -1; k <= 1; k++ {
+			if u.Alive(x+k, y+i) && !(k == 0 && i == 0) {
+				n++
+			}
+		}
+	}
+	return n
+}
+
+//Next the state of planet at next generation
+func (u Universe) Next(x, y int) bool {
+
+	n := u.Neighbors(x, y)
+	return n == 2 || n == 3 && u.Alive(x, y)
+}
+
+//Step create the next generation
+func Step(a, b Universe) {
+	for y := 0; y < height; y++ {
+		for x := 0; x < width; x++ {
+			b.Set(y, x, a.Next(x, y))
+		}
+	}
+}
+
 func main() {
-	v := NewUniverse()
-	v.Seed()
-	v.Show()
+	a := NewUniverse()
+	b := NewUniverse()
+	a.Seed()
+
+	//slice testing
+	//c := []string{}
+	//c = append(c, "123")
+	//fmt.Print(c)
+	//test := make([]string, 0, 10)
+	//test = append(test, "addone")
+	//fmt.Print(cap(test))
+	//println(time.Second, time.Millisecond,time.Microsecond, time.Nanosecond)
+
+	for i := 0; i < 300; i++ {
+		Step(a, b)
+		a.Show()
+
+		time.Sleep(time.Second / 30)
+
+		a, b = b, a
+	}
+	//fmt.Println(v.Neighbors(1, 1))
 }
