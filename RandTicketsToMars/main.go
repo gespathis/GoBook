@@ -13,7 +13,7 @@ func main() {
 	var totalPrice float32
 
 	fmt.Printf("\n")
-	fmt.Printf("%-20v%-5v%-11v%-4v\n", "SpaceLine", "Days", "Trip type", "Price")
+	fmt.Printf("%-20v%-5v%-12v%v\n", "SpaceLine", "Days", "Trip type", "Price")
 	fmt.Printf("========================================================================\n")
 
 	for index := 0; index < ticketsToFind; index++ {
