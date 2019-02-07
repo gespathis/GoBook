@@ -1,7 +1,7 @@
 package main
 
 import (
-	"GoBook/MartianAnimalSanctuary/ark"
+	"GoBook/MartianAnimalSanctuary/Domain"
 	"fmt"
 	"math/rand"
 	"time"
