@@ -7,7 +7,7 @@ import (
 
 func dataSource(uploadStream chan<- string) {
 
-	for _, v := range []string{"help me take good", "good", "offer from beat", "success beat success"} {
+	for _, v := range []string{"fight club", "do", "not talk about", "first rule of fight"} {
 		uploadStream <- v
 	}
 	close(uploadStream)
